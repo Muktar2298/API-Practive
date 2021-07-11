@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts API Explore</title>
+</head>
+
+<body>
+    <ul id="post-title">
+
+    </ul>
+
+    <script>
+        //--data load --//
+        const url = `https://jsonplaceholder.typicode.com/posts`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => displayPost(data))
+            .catch(error => console.log(error));
+        // --displayPost --//
+        const displayPost = postsInfo => {
+            const ul = document.getElementById('post-title');
+            const posts = postsInfo.map(post => post.title);
+            for (let i = 0; i < posts.length; i++) {
+                const postTitle = posts[i];
+                const li = document.createElement('li');
+                li.innerText = postTitle;
+                li.style.border = "2px solid red";
+                li.style.padding = "20px";
+                li.style.listStyle = "none";
+                ul.appendChild(li);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Send Data to the Server</h1>
+    <input type="text" name="" id="title" placeholder="Enter Title..">
+    <br><br>
+    <input type="text" name="" id="body" placeholder="Body Content.."><br><br>
+    <button id="btn">Sumit Post</button>
+
+
+    <script>
+        document.getElementById("btn").addEventListener("click", function () {
+            const title = document.getElementById("title").value;
+            const bodyContent = document.getElementById("body").value;
+            const postData = {
+                title: title,
+                bodyContent: bodyContent
+            };
+            sendDateToServer(postData);
+
+        })
+        //--Send Data --//
+        function sendDateToServer(postInfo) {
+            const url = `https://jsonplaceholder.typicode.com/posts`;
+            fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(postInfo),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    }
+                })
+                // --server response --//
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.log(error));
+        }
+    </script>
+</body>
+
+</html>

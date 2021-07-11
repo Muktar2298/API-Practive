@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore API</title>
+</head>
+
+<body>
+    <h1>USERNAME</h1>
+    <ul id="user-details">
+
+    </ul>
+
+    <script>
+        const url = 'https://jsonplaceholder.typicode.com/users';
+        fetch(url)
+            .then(response => response.json())
+            .then(data => displayUserInfo(data));
+
+        const displayUserInfo = (users) => {
+            const ul = document.getElementById("user-details");
+            const usersNames = users.map(user => user.username);
+            for (let i = 0; i < usersNames.length; i++) {
+                const userName = usersNames[i];
+                const li = document.createElement("li");
+                li.innerText = "UserName: " + userName;
+                ul.appendChild(li);
+            }
+        }
+    </script>
+</body>
+
+</html>
