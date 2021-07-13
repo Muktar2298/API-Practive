@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dataload Using async & await</title>
+</head>
+
+<body>
+    <h1>Explore async & await</h1>
+    <ul id="user-name">
+
+    </ul>
+
+
+
+    <script>
+        async function loadData() {
+            const url = `https://jsonplaceholder.typicode.com/users`;
+            const response = await fetch(url)
+            const data = await response.json();
+            return data;
+        }
+        // const displayData = loadData();     //--async aka "promise dibe" --//
+        // console.log(displayData)
+        loadData().then(data => {
+            displayData(data);
+        })
+
+        // --displayData functions --//
+        const displayData = (users) => {
+            const user = users.map(user => {
+                // console.log(user)
+                const li = document.createElement('li');
+                li.innerText = `Name: ${user.name}.`;
+                document.getElementById("user-name").appendChild(li);
+            })
+        }
+    </script>
+</body>
+
+</html>

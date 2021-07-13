@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Random User Info</title>
+</head>
+
+<body>
+    <img alt="" id='user-img' width="100px" height="100px">
+    <p id="user-name">User Name</p>
+
+
+    <script>
+        const displayUserInfo = () => {
+            const url = `https://randomuser.me/api`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // --For User Photo --//
+                    const userPhoto = data.results[0].picture;
+                    const userThumbnail = userPhoto.thumbnail;
+                    const img = document.getElementById('user-img');
+                    img.src = `${userThumbnail}`;
+
+                    // --For userName --//
+                    // const user = data.results[0];
+                    const user = data.results[0].name;
+                    const userName = `${user.title} ${user.first} ${user.last}`;
+                    document.getElementById('user-name').innerText = userName;
+                })
+                .catch(error => console.log(error));
+        }
+        displayUserInfo();
+    </script>
+</body>
+
+</html>
