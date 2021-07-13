@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Tour</title>
+    <!-- Customize CSS -->
+    <style>
+        #country-div {
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        .country-div {
+            /* border: 1px solid black; */
+            width: 25%;
+            min-height: 200px;
+            text-align: center;
+            background-color: indianred;
+            box-shadow: 0px 10px 20px rgba(192, 189, 189, 0.3),
+                0px 20px 30px rgba(0, 0, 0, 0.5);
+            color: white;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+        .btn {
+            width: 150px;
+            border: none;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        #country-details {
+            width: 50%;
+            background-color: #6b6767;
+            color: white;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+
+        #country-details img {
+            max-width: 40%;
+            min-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #country-details h1,
+        h2,
+        h3,
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<div id="country-details"></div>
+<div id="country-div"></div>
+
+<body>
+
+
+    <!-- Customize Javascript -->
+    <script>
+        //  --data load --//
+        const dataLoad = () => {
+            const url = `https://restcountries.eu/rest/v2/all`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => displayCountries(data))
+                .catch(error => console.log(error));
+        }
+
+        // ---displayCountries ----//
+        const displayCountries = (data) => {
+            const countries = data.map(country => {
+                const countriesDiv = document.getElementById("country-div");
+                const countryDiv = document.createElement('div');
+                countryDiv.className = "country-div";
+                const countryInfo = `
+                                <h1>${country.name}</h1>
+                                <h3>${country.capital}</h3>
+                                <button class = "btn" onclick="showCountriesDetails('${country.name}')">Show Details </button>
+                                
+               `
+                countryDiv.innerHTML = countryInfo;
+                countriesDiv.appendChild(countryDiv);
+            })
+        }
+        // --Btn event listener ---//
+        const showCountriesDetails = (name) => {
+
+            // --div display --//
+            const displayDiv = document.getElementById('country-div')
+            if (displayDiv.style.display == "block") {
+                displayDiv.style.display = "none";
+            } else {
+                displayDiv.style.display = "none";
+                document.getElementById('country-details').style.display = "block";
+            }
+
+            // console.log(name);
+            const url = `https://restcountries.eu/rest/v2/name/${name}?fullText=true`;
+            fetch(url)
+                .then((response) => response.json())
+                .then(data => countryDetails(data))
+                .catch((error) => console.log(error))
+        }
+
+        //--country details --//
+        const countryDetails = (country) => {
+            const coununtryInfo = country.forEach((country => {
+                const countryDetailsDiv = document.getElementById('country-details');
+                const countryDetailsInfo = `
+                                       <img src="${country.flag}">
+                                       <h1>${country.name}</h1>
+                                       <h3>${country.capital}</h3>
+                                       <p>${country.population}</p>
+                                       <p>${country.region}</p>
+             `
+                countryDetailsDiv.innerHTML = countryDetailsInfo;
+            }))
+
+        }
+        dataLoad();
+    </script>
+</body>
+
+</html>
